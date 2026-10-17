@@ -1,11 +1,404 @@
 ---
-import Welcome from '../components/Welcome.astro';
-import Layout from '../layouts/Layout.astro';
+const features = [
+  { icon: 'invoice', title: 'الفوترة الذكية', desc: 'فواتير ضريبية، إشعارات دائن/مدين، وعروض أسعار بضغطة واحدة مع طباعة PDF.' },
+  { icon: 'box', title: 'إدارة المخزون', desc: 'تتبع فوري للأصناف، تنبيهات نقص تلقائية، جرد دوري، وتحويلات بين المستودعات.' },
+  { icon: 'users', title: 'علاقات العملاء', desc: 'سجل تفاعلات كامل، متابعة المبيعات، وعروض أسعار مخصصة لكل عميل.' },
+  { icon: 'chart', title: 'تقارير ذكية', desc: 'تحليلات فورية للمبيعات والمشتريات مع AI Insights أسبوعية تلقائية.' },
+  { icon: 'building', title: 'متعدد الفروع', desc: 'إدارة أكثر من فرع أو مستودع من حساب واحد مع تقارير موحدة.' },
+  { icon: 'shield', title: 'أمان متقدم', desc: 'تشفير كامل للبيانات، نسخ احتياطي يومي، وعزل تام بين المنشآت.' }
+];
 
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
+const plans = [
+  { name: 'Starter', price: '15,000', period: 'ريال/شهر', desc: 'للمشاريع الصغيرة', features: ['منشأة واحدة', 'حتى 3 مستخدمين', 'الفواتير والمخزون', 'تقارير أساسية', 'دعم عبر البريد'], cta: 'ابدأ الآن', highlighted: false },
+  { name: 'Pro', price: '45,000', period: 'ريال/شهر', desc: 'للشركات النامية', features: ['10 مستخدمين', 'كل ميزات Starter', 'تقارير متقدمة', 'AI Insights أسبوعية', 'دعم أولوية', 'تدريب مجاني'], cta: 'ابدأ الآن', highlighted: true },
+  { name: 'Enterprise', price: 'تواصل', period: 'معنا', desc: 'للشركات الكبيرة', features: ['عدد غير محدود', 'كل ميزات Pro', 'تخصيص كامل', 'SLA مخصص', 'مدير حساب', 'تكاملات خاصة'], cta: 'تواصل معنا', highlighted: false }
+];
+
+const testimonials = [
+  { quote: 'وفّر MeDo ERP علينا 20 ساعة أسبوعياً في المحاسبة والتقارير.', author: 'المدير المالي', company: 'مجموعة بن زياد التجارية' },
+  { quote: 'أفضل نظام ERP استخدمناه في اليمن. الدعم سريع، والواجهة عربية بالكامل.', author: 'مدير العمليات', company: 'المصنع الحديث الوطني' }
+];
+
+const faqs = [
+  { q: 'ما هو MeDo ERP؟', a: 'نظام ERP سحابي متكامل يغطي الفوترة والمخزون والعملاء والتقارير في منصة واحدة.' },
+  { q: 'كم تستغرق التجربة المجانية؟', a: '7 أيام كاملة، بدون بطاقة ائتمانية، وبكل الميزات مفتوحة.' },
+  { q: 'هل بياناتي آمنة؟', a: 'نعم. كل البيانات مشفرة، وعزل تام بين المنشآت، ونسخ احتياطي يومي.' },
+  { q: 'هل يمكنني استخدامه من الجوال؟', a: 'نعم. النظام يعمل على أي متصفح حديث، ومحسّن للجوال.' },
+  { q: 'كيف أنقل بياناتي من Excel؟', a: 'أداة استيراد مجانية تدعم Excel و CSV، مع مساعدة فريق الدعم.' },
+  { q: 'هل يمكنني الإلغاء في أي وقت؟', a: 'نعم، بدون رسوم. اشتراكك يبقى نشطاً حتى نهاية الفترة المدفوعة.' }
+];
 ---
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MeDo ERP — أدر أعمالك بذكاء من أي مكان</title>
+  <meta name="description" content="نظام MeDo ERP السحابي — فواتير، مخزون، عملاء، وتقارير في منصة واحدة. مصمم للشركات اليمنية والخليجية.">
+  <meta name="theme-color" content="#1e40af">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E💼%3C/text%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;900&display=swap" rel="stylesheet">
+  <style>
+    *{box-sizing:border-box;margin:0;padding:0}
+    html{scroll-behavior:smooth}
+    body{font-family:'Tajawal',system-ui,sans-serif;background:#fff;color:#334155;line-height:1.7;-webkit-font-smoothing:antialiased}
+    a{text-decoration:none;color:inherit}
+    img{max-width:100%;display:block}
+    
+    .container{max-width:1200px;margin:0 auto;padding:0 24px}
+    
+    /* Header */
+    header{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.95);backdrop-filter:blur(12px);border-bottom:1px solid #e2e8f0}
+    .nav{display:flex;align-items:center;justify-content:space-between;padding:16px 0}
+    .logo{display:flex;align-items:center;gap:10px;font-size:1.3rem;font-weight:900;color:#0f172a}
+    .logo-mark{width:40px;height:40px;border-radius:12px;background:linear-gradient(135deg,#1e40af,#3b82f6);display:flex;align-items:center;justify-content:center}
+    .logo-mark svg{width:24px;height:24px;stroke:#fff;fill:none;stroke-width:2}
+    .nav-links{display:flex;gap:32px}
+    .nav-links a{font-weight:700;color:#475569;font-size:.95rem;transition:color .2s}
+    .nav-links a:hover{color:#1e40af}
+    .nav-cta{display:inline-flex;align-items:center;gap:8px;padding:10px 22px;background:#1e40af;color:#fff;font-weight:700;border-radius:10px;font-size:.9rem;transition:all .2s}
+    .nav-cta:hover{background:#3b82f6;transform:translateY(-1px)}
+    @media(max-width:900px){.nav-links{display:none}.nav-cta{display:none}}
+    
+    /* Hero */
+    .hero{position:relative;padding:80px 0 100px;background:linear-gradient(180deg,#fff 0%,#f8fafc 100%);overflow:hidden}
+    .hero::before{content:'';position:absolute;top:-100px;left:25%;width:400px;height:400px;background:rgba(96,165,250,.2);border-radius:50%;filter:blur(80px)}
+    .hero::after{content:'';position:absolute;bottom:-100px;right:20%;width:500px;height:500px;background:rgba(30,64,175,.08);border-radius:50%;filter:blur(80px)}
+    .hero-inner{position:relative;text-align:center;max-width:800px;margin:0 auto}
+    .hero-badge{display:inline-flex;align-items:center;gap:8px;padding:6px 16px;background:#eff6ff;color:#1e40af;border-radius:99px;font-size:.85rem;font-weight:700;margin-bottom:24px}
+    .hero-badge .dot{width:8px;height:8px;background:#22c55e;border-radius:50%;animation:pulse 2s infinite}
+    @keyframes pulse{0%,100%{opacity:1}50%{opacity:.5}}
+    .hero h1{font-size:clamp(2.2rem,5vw,3.8rem);font-weight:900;color:#0f172a;line-height:1.15;margin-bottom:24px;letter-spacing:-1px}
+    .gradient-text{background:linear-gradient(135deg,#1e40af,#3b82f6);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent}
+    .hero p{font-size:clamp(1rem,2vw,1.2rem);color:#475569;margin-bottom:36px;max-width:600px;margin-inline:auto}
+    .hero-actions{display:flex;gap:14px;justify-content:center;flex-wrap:wrap}
+    .btn-primary{display:inline-flex;align-items:center;gap:10px;padding:16px 32px;background:#1e40af;color:#fff;font-weight:700;border-radius:12px;font-size:1rem;transition:all .25s;box-shadow:0 10px 25px -5px rgba(30,64,175,.4)}
+    .btn-primary:hover{background:#3b82f6;transform:translateY(-3px);box-shadow:0 15px 35px -5px rgba(30,64,175,.5)}
+    .btn-ghost{display:inline-flex;align-items:center;gap:10px;padding:16px 32px;border:2px solid #1e40af;color:#1e40af;font-weight:700;border-radius:12px;font-size:1rem;transition:all .25s}
+    .btn-ghost:hover{background:#1e40af;color:#fff;transform:translateY(-3px)}
+    .hero-trust{display:flex;gap:20px;justify-content:center;flex-wrap:wrap;margin-top:28px;font-size:.88rem;color:#64748b}
+    .hero-trust span{display:inline-flex;align-items:center;gap:6px}
+    .hero-trust .check{color:#059669;font-weight:900}
+    
+    /* Sections */
+    section{padding:80px 0}
+    .section-head{text-align:center;max-width:680px;margin:0 auto 56px}
+    .section-title{font-size:clamp(1.8rem,3.5vw,2.5rem);font-weight:900;color:#0f172a;margin-bottom:14px;line-height:1.2}
+    .section-sub{font-size:1.05rem;color:#64748b}
+    
+    /* Features */
+    .features-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:22px}
+    .feature-card{padding:28px;background:#fff;border:1px solid #e2e8f0;border-radius:18px;transition:all .3s}
+    .feature-card:hover{border-color:#3b82f6;transform:translateY(-5px);box-shadow:0 20px 40px -10px rgba(59,130,246,.2)}
+    .feature-icon{width:56px;height:56px;border-radius:14px;background:#eff6ff;display:flex;align-items:center;justify-content:center;margin-bottom:20px;transition:background .3s}
+    .feature-card:hover .feature-icon{background:#1e40af}
+    .feature-icon svg{width:26px;height:26px;stroke:#1e40af;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;transition:stroke .3s}
+    .feature-card:hover .feature-icon svg{stroke:#fff}
+    .feature-card h3{font-size:1.15rem;font-weight:800;color:#0f172a;margin-bottom:10px}
+    .feature-card p{font-size:.95rem;color:#64748b;line-height:1.7}
+    
+    /* Pricing */
+    .pricing-bg{background:#f8fafc}
+    .pricing-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:24px;max-width:1050px;margin:0 auto}
+    .pricing-card{position:relative;padding:36px 28px;background:#fff;border:1px solid #e2e8f0;border-radius:22px;transition:all .3s}
+    .pricing-card.highlight{border:2px solid #1e40af;box-shadow:0 20px 50px -10px rgba(30,64,175,.25);transform:scale(1.03)}
+    @media(max-width:900px){.pricing-card.highlight{transform:none}}
+    .pricing-card:hover{transform:translateY(-5px)}
+    .pricing-card.highlight:hover{transform:translateY(-8px) scale(1.03)}
+    .popular-badge{position:absolute;top:-14px;right:50%;transform:translateX(50%);background:#1e40af;color:#fff;padding:6px 18px;border-radius:99px;font-size:.75rem;font-weight:900;white-space:nowrap}
+    .pricing-card h3{font-size:1.5rem;font-weight:900;color:#0f172a;margin-bottom:6px}
+    .pricing-card .plan-desc{font-size:.85rem;color:#64748b;margin-bottom:20px}
+    .price-row{display:flex;align-items:baseline;gap:6px;margin-bottom:24px}
+    .price{font-size:2.2rem;font-weight:900;color:#1e40af;line-height:1}
+    .period{font-size:.88rem;color:#64748b;font-weight:500}
+    .plan-features{list-style:none;margin-bottom:28px}
+    .plan-features li{display:flex;align-items:flex-start;gap:10px;padding:8px 0;font-size:.9rem;color:#334155}
+    .plan-features .check{color:#059669;font-weight:900;flex-shrink:0}
+    .plan-btn{display:block;text-align:center;padding:14px;border-radius:12px;font-weight:700;font-size:.95rem;transition:all .25s}
+    .plan-btn.primary{background:#1e40af;color:#fff}
+    .plan-btn.primary:hover{background:#3b82f6}
+    .plan-btn.outline{border:2px solid #1e40af;color:#1e40af}
+    .plan-btn.outline:hover{background:#1e40af;color:#fff}
+    
+    /* Testimonials */
+    .testimonials-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:24px}
+    .testimonial{padding:32px;background:#fff;border:1px solid #e2e8f0;border-radius:20px;position:relative}
+    .testimonial::before{content:'"';position:absolute;top:10px;right:24px;font-size:5rem;color:#dbeafe;font-family:Georgia,serif;line-height:1;font-weight:900}
+    .testimonial-text{font-size:1.05rem;color:#334155;margin-bottom:22px;line-height:1.7;position:relative;z-index:1}
+    .testimonial-author{display:flex;align-items:center;gap:12px}
+    .author-avatar{width:48px;height:48px;border-radius:50%;background:linear-gradient(135deg,#1e40af,#3b82f6);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:900;font-size:1.1rem}
+    .author-info strong{display:block;color:#0f172a;font-size:.95rem}
+    .author-info span{font-size:.83rem;color:#64748b}
+    
+    /* FAQ */
+    .faq-list{max-width:760px;margin:0 auto}
+    .faq-item{border:1px solid #e2e8f0;border-radius:14px;margin-bottom:12px;background:#fff;overflow:hidden}
+    .faq-item summary{padding:20px 24px;cursor:pointer;font-weight:700;color:#0f172a;font-size:1rem;list-style:none;display:flex;justify-content:space-between;align-items:center;transition:background .2s}
+    .faq-item summary:hover{background:#f8fafc}
+    .faq-item summary::after{content:'+';font-size:1.5rem;color:#1e40af;font-weight:300;transition:transform .3s}
+    .faq-item[open] summary::after{transform:rotate(45deg)}
+    .faq-item p{padding:0 24px 20px;color:#64748b;font-size:.95rem;line-height:1.7}
+    
+    /* CTA */
+    .cta{background:linear-gradient(135deg,#0f172a 0%,#1e40af 50%,#3b82f6 100%);color:#fff;position:relative;overflow:hidden}
+    .cta::before{content:'';position:absolute;top:-50%;left:20%;width:600px;height:600px;background:rgba(255,255,255,.08);border-radius:50%;filter:blur(60px)}
+    .cta-inner{position:relative;text-align:center;max-width:700px;margin:0 auto}
+    .cta h2{font-size:clamp(1.8rem,3.5vw,2.8rem);font-weight:900;color:#fff;margin-bottom:16px}
+    .cta p{font-size:1.1rem;opacity:.95;margin-bottom:32px}
+    .cta-actions{display:flex;gap:14px;justify-content:center;flex-wrap:wrap}
+    .cta .btn-white{padding:16px 32px;background:#fff;color:#1e40af;border-radius:12px;font-weight:900;font-size:1rem;transition:all .25s;display:inline-block}
+    .cta .btn-white:hover{background:#f1f5f9;transform:translateY(-3px);box-shadow:0 15px 30px rgba(0,0,0,.2)}
+    .cta .btn-outline{padding:16px 32px;border:2px solid rgba(255,255,255,.6);color:#fff;border-radius:12px;font-weight:900;font-size:1rem;transition:all .25s;display:inline-block}
+    .cta .btn-outline:hover{background:rgba(255,255,255,.15);border-color:#fff}
+    .cta-trust{margin-top:24px;font-size:.85rem;opacity:.9}
+    
+    /* Footer */
+    footer{background:#0f172a;color:#cbd5e1;padding:60px 0 28px}
+    .footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:40px;margin-bottom:40px}
+    @media(max-width:800px){.footer-grid{grid-template-columns:1fr 1fr;gap:30px}}
+    .footer-brand{max-width:300px}
+    .footer-brand p{font-size:.9rem;line-height:1.7;margin-top:16px;color:#94a3b8}
+    .footer-col h4{color:#fff;font-size:.95rem;font-weight:800;margin-bottom:16px}
+    .footer-col a{display:block;color:#94a3b8;font-size:.88rem;padding:5px 0;transition:color .2s}
+    .footer-col a:hover{color:#60a5fa}
+    .footer-bottom{padding-top:24px;border-top:1px solid #1e293b;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px;font-size:.83rem;color:#64748b}
+    .footer-bottom .socials{display:flex;gap:12px}
+    .footer-bottom .socials a{width:36px;height:36px;border-radius:9px;background:#1e293b;display:flex;align-items:center;justify-content:center;transition:background .2s}
+    .footer-bottom .socials a:hover{background:#1e40af}
+    .footer-bottom .socials svg{width:16px;height:16px;stroke:#94a3b8;fill:none;stroke-width:2}
+    .footer-bottom .socials a:hover svg{stroke:#fff}
+    
+    /* WhatsApp Float */
+    .wa-float{position:fixed;bottom:24px;left:24px;width:56px;height:56px;border-radius:50%;background:#25d366;display:flex;align-items:center;justify-content:center;box-shadow:0 10px 30px rgba(37,211,102,.4);z-index:100;transition:transform .25s}
+    .wa-float:hover{transform:scale(1.1)}
+    .wa-float svg{width:28px;height:28px;fill:#fff}
+    
+    /* Animations */
+    .fade-up{opacity:0;transform:translateY(20px);animation:fadeUp .7s ease-out forwards}
+    .fade-up.d1{animation-delay:.1s}
+    .fade-up.d2{animation-delay:.2s}
+    .fade-up.d3{animation-delay:.3s}
+    @keyframes fadeUp{to{opacity:1;transform:translateY(0)}}
+  </style>
+</head>
+<body>
 
-<Layout>
-	<Welcome />
-</Layout>
+  <!-- ============ HEADER ============ -->
+  <header>
+    <div class="container nav">
+      <a href="/" class="logo">
+        <div class="logo-mark">
+          <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><path d="M9 22V12h6v10"/></svg>
+        </div>
+        MeDo ERP
+      </a>
+      <nav class="nav-links">
+        <a href="#features">الميزات</a>
+        <a href="#pricing">الأسعار</a>
+        <a href="#faq">الأسئلة</a>
+        <a href="#contact">تواصل</a>
+      </nav>
+      <a href="https://medo-erp-cloud.vercel.app/signup" class="nav-cta">
+        ابدأ مجاناً
+      </a>
+    </div>
+  </header>
+
+  <!-- ============ HERO ============ -->
+  <section class="hero">
+    <div class="container hero-inner">
+      <div class="hero-badge fade-up">
+        <span class="dot"></span>
+        الإصدار 6.1 متاح الآن
+      </div>
+      <h1 class="fade-up d1">
+        أدر أعمالك بذكاء،
+        <span class="gradient-text">من أي مكان</span>
+      </h1>
+      <p class="fade-up d2">
+        نظام <strong style="color:#0f172a">MeDo ERP</strong> السحابي — فواتير ذكية، إدارة مخزون، علاقات عملاء، وتقارير فورية في منصة واحدة. مصمم خصيصاً للشركات اليمنية والخليجية.
+      </p>
+      <div class="hero-actions fade-up d3">
+        <a href="https://medo-erp-cloud.vercel.app/signup" class="btn-primary">
+          ابدأ التجربة المجانية 7 أيام
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+        </a>
+        <a href="#features" class="btn-ghost">
+          شاهد العرض التوضيحي
+        </a>
+      </div>
+      <div class="hero-trust fade-up d3">
+        <span><span class="check">✓</span> بدون بطاقة ائتمانية</span>
+        <span><span class="check">✓</span> إعداد في دقيقة</span>
+        <span><span class="check">✓</span> دعم بالعربية</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ FEATURES ============ -->
+  <section id="features" style="background:#fff">
+    <div class="container">
+      <div class="section-head">
+        <h2 class="section-title">كل ما تحتاجه، في منصة واحدة</h2>
+        <p class="section-sub">صممنا MeDo ERP ليكون الحل الشامل لأعمالك — من الفاتورة الأولى إلى التقرير السنوي.</p>
+      </div>
+      <div class="features-grid">
+        {features.map(f => (
+          <div class="feature-card">
+            <div class="feature-icon">
+              {f.icon === 'invoice' && <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="9" y1="15" x2="15" y2="15"/></svg>}
+              {f.icon === 'box' && <svg viewBox="0 0 24 24"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/></svg>}
+              {f.icon === 'users' && <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/></svg>}
+              {f.icon === 'chart' && <svg viewBox="0 0 24 24"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>}
+              {f.icon === 'building' && <svg viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>}
+              {f.icon === 'shield' && <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>}
+            </div>
+            <h3>{f.title}</h3>
+            <p>{f.desc}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ PRICING ============ -->
+  <section id="pricing" class="pricing-bg">
+    <div class="container">
+      <div class="section-head">
+        <h2 class="section-title">أسعار بسيطة وشفافة</h2>
+        <p class="section-sub">ابدأ مجاناً لمدة 7 أيام. بدون بطاقة ائتمانية. ألغِ في أي وقت.</p>
+      </div>
+      <div class="pricing-grid">
+        {plans.map(p => (
+          <div class:list={['pricing-card', p.highlighted && 'highlight']}>
+            {p.highlighted && <div class="popular-badge">⭐ الأكثر شعبية</div>}
+            <h3>{p.name}</h3>
+            <p class="plan-desc">{p.desc}</p>
+            <div class="price-row">
+              <span class="price">{p.price}</span>
+              <span class="period">{p.period}</span>
+            </div>
+            <ul class="plan-features">
+              {p.features.map(f => (
+                <li><span class="check">✓</span> {f}</li>
+              ))}
+            </ul>
+            <a href="https://medo-erp-cloud.vercel.app/signup" class:list={['plan-btn', p.highlighted ? 'primary' : 'outline']}>
+              {p.cta}
+            </a>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ TESTIMONIALS ============ -->
+  <section style="background:#fff">
+    <div class="container">
+      <div class="section-head">
+        <h2 class="section-title">موثوق به من قبل الشركات الرائدة</h2>
+        <p class="section-sub">آراء عملائنا في اليمن والخليج</p>
+      </div>
+      <div class="testimonials-grid">
+        {testimonials.map(t => (
+          <div class="testimonial">
+            <p class="testimonial-text">{t.quote}</p>
+            <div class="testimonial-author">
+              <div class="author-avatar">{t.author.charAt(0)}</div>
+              <div class="author-info">
+                <strong>{t.author}</strong>
+                <span>{t.company}</span>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ FAQ ============ -->
+  <section id="faq" class="pricing-bg">
+    <div class="container">
+      <div class="section-head">
+        <h2 class="section-title">الأسئلة الشائعة</h2>
+        <p class="section-sub">إجابات على أكثر ما يسألنا عنه العملاء</p>
+      </div>
+      <div class="faq-list">
+        {faqs.map(f => (
+          <details class="faq-item">
+            <summary>{f.q}</summary>
+            <p>{f.a}</p>
+          </details>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ CTA ============ -->
+  <section id="contact" class="cta">
+    <div class="container cta-inner">
+      <h2>جاهز لتبدأ؟</h2>
+      <p>انضم إلى الشركات اليمنية الرائدة التي تستخدم MeDo ERP لإدارة أعمالها بكفاءة.</p>
+      <div class="cta-actions">
+        <a href="https://medo-erp-cloud.vercel.app/signup" class="btn-white">
+          ابدأ التجربة المجانية
+        </a>
+        <a href="https://wa.me/967777000000" class="btn-outline">
+          تحدث مع خبير
+        </a>
+      </div>
+      <p class="cta-trust">✓ 7 أيام مجانية  ✓ بدون بطاقة ائتمانية  ✓ دعم بالعربية</p>
+    </div>
+  </section>
+
+  <!-- ============ FOOTER ============ -->
+  <footer>
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="logo" style="color:#fff">
+            <div class="logo-mark">
+              <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><path d="M9 22V12h6v10"/></svg>
+            </div>
+            MeDo ERP
+          </div>
+          <p>نظام ERP سحابي مصمم للشركات اليمنية والخليجية — من ميدو تك للحلول البرمجية السحابية.</p>
+        </div>
+        <div class="footer-col">
+          <h4>المنتج</h4>
+          <a href="#features">الميزات</a>
+          <a href="#pricing">الأسعار</a>
+          <a href="https://medo-erp-archive.vercel.app">الأرشيف</a>
+        </div>
+        <div class="footer-col">
+          <h4>الدعم</h4>
+          <a href="#contact">تواصل معنا</a>
+          <a href="https://wa.me/967777000000">واتساب</a>
+          <a href="mailto:info@medo-erp.com">البريد</a>
+        </div>
+        <div class="footer-col">
+          <h4>الشركة</h4>
+          <a href="https://medo-erp-cloud.vercel.app">الموقع الرئيسي</a>
+          <a href="https://medo-erp-cloud.vercel.app/signup">التسجيل</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>© 2026 Bin Ziyad Group & MeDo Tech (BZMT) — جميع الحقوق محفوظة</p>
+        <div class="socials">
+          <a href="#" aria-label="Twitter"><svg viewBox="0 0 24 24"><path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"/></svg></a>
+          <a href="#" aria-label="LinkedIn"><svg viewBox="0 0 24 24"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-4 0v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg></a>
+          <a href="#" aria-label="Instagram"><svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg></a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ============ WhatsApp Float ============ -->
+  <a href="https://wa.me/967777000000" class="wa-float" aria-label="واتساب">
+    <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.71.306 1.263.489 1.694.625.712.227 1.36.195 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413z"/></svg>
+  </a>
+
+</body>
+</html>
